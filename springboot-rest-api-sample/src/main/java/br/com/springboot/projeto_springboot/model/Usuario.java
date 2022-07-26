@@ -19,6 +19,7 @@ public class Usuario implements Serializable{
 	private Long id;
 	private String nome;
 	private int idade;
+	private String skill;
 	
 	public Long getId() {
 		return id;
@@ -38,7 +39,10 @@ public class Usuario implements Serializable{
 	public void setIdade(int idade) {
 		this.idade = idade;
 	}
-	
-	
-
+	public String getSkill() {
+		return skill;
+	}
+	public void setSkill(String skill) {
+		this.skill = skill;
+	}
 }
