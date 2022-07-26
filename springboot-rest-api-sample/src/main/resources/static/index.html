@@ -82,7 +82,7 @@ align-content: center;
 				<div style="height: 600px;">
 				<input class="form-control" type="text" id="entrada" onkeyup="buscaTabela()" placeholder="Busca por nome">
 					<table class="table" id="tabelaResultados" style="overflow: scroll;">
-						<thead>
+						<thead style="background-color: black; color: white;">
 							<tr>
 								<th scope="col">ID</th>
 								<th scope="col">Nome</th>
@@ -241,8 +241,6 @@ align-content: center;
 				alert('Informe a skill');
 				return;
 			}
-			
-			if(id == null || id != null & id.trim() == ''){
 			$.ajax({
 				method : "POST",
 				url : "salvar",
@@ -257,27 +255,8 @@ align-content: center;
 			});
 			
 			document.getElementById('formCadUser').reset();
-			}else{
-				
-				$.ajax({
-					method : "POST",
-					url : "salvar",
-					data : JSON.stringify({id : id, nome : nome, idade : idade, skill : skill}),
-					contentType : "application/json; charset-utf-8",
-					success : function(response) {
-						alert("Atualizado com sucesso!");
-						$('#modalEditarUser').modal('hide');
-						return preencheTabela();
-					}
-				}).fail(function(xhr, status, errorThrown) {
-					alert("Erro ao Atualizado: " + xhr.responseText);
-				});
-				
-				document.getElementById('formCadUser').reset();
-			}
 
 		}
-		
 		
 		function atualizarUsuario() {
 			var id = $('#id').val();
@@ -304,8 +283,8 @@ align-content: center;
 			}
 				
 				$.ajax({
-					method : "POST",
-					url : "salvar",
+					method : "PUT",
+					url : "atualizar",
 					data : JSON.stringify({id : id, nome : nome, idade : idade, skill : skill}),
 					contentType : "application/json; charset-utf-8",
 					success : function(response) {
