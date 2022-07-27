@@ -255,7 +255,7 @@ align-content: center;
 			var idade = $('#idadeInsercao').val();
 			var skill = $('#skillInsercao').val();
 			
-			if(nome == null || nome != null & nome.trim() == ''){
+			if(nome == null || nome != null && nome.trim() == ''){
 				$('#nome').focus();
 					Toast.fire({
 					  icon: 'warning',
@@ -297,7 +297,7 @@ align-content: center;
 
 						Toast.fire({
 						  icon: 'success',
-						  title: 'Usuádio salvo com sucesso!!'
+						  title: 'Usuário salvo com sucesso!!'
 						})	
 					return preencheTabela();
 				}
