@@ -43,10 +43,6 @@ align-content: center;
 				<br>
 				<div class="card">
 				<form action="" id="formCadUser">
-					<!--  <div class="mb-3">
-						<label for="id" class="form-label">ID</label> <input type="text"
-							class="form-control" id="id" readonly="readonly">
-					</div>-->
 					<div class="mb-3">
 						<label for="nomeInsercao" class="form-label">Nome</label> <input
 							type="text" class="form-control" id="nomeInsercao"
@@ -75,16 +71,16 @@ align-content: center;
 			
 			
 			
-			
+			<!-- Tabela de dados -->
 			<div class="col-sm-8" id="tabelaDevs">
 			<h3>Tabela de Desenvolvedores</h3>
 			<br>
-				<div style="height: 600px;">
+				<div style="height: 350px;">
 				<input class="form-control" type="text" id="entrada" onkeyup="buscaTabela()" placeholder="Busca por nome">
-					<table class="table" id="tabelaResultados" style="overflow: scroll;">
+					<table class="table table-striped" id="tabelaResultados">
 						<thead style="background-color: black; color: white;">
 							<tr>
-								<th scope="col">ID</th>
+								<th scope="col">#</th>
 								<th scope="col">Nome</th>
 								<th scope="col">Idade</th>
 								<th scope="col">Skill</th>
@@ -101,6 +97,7 @@ align-content: center;
 		</div>
 	</div>
 
+		<!-- Modal de edição de usuarios -->
 		<div class="modal fade" id="modalEditarUser" tabindex="-1"
 			aria-labelledby="modalEditarUser" aria-hidden="true">
 			<div class="modal-dialog">
