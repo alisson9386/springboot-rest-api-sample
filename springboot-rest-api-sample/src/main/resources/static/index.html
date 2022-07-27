@@ -66,12 +66,8 @@ align-content: center;
 							<option value="React">React</option>
 						</select>
 					</div>
-					<button type="button" class="btn btn-primary"
+					<button type="button" class="btn btn-success"
 						onclick="salvarUsuario()">Salvar</button>
-					<button type="button" class="btn btn-secondary"
-						onclick="document.getElementById('formCadUser').reset();">Novo</button>
-					<!-- <button type="button" class="btn btn-warning"
-						data-bs-toggle="modal" data-bs-target="#modalEditarUser">Pesquisar</button> -->
 				</form>
 				</div>
 			</div>
@@ -179,27 +175,20 @@ align-content: center;
 					
 				}
 			}).fail(function(xhr, status, errorThrown) {
-				alert("Erro ao buscar: " + xhr.responseText);
+				Swal.fire(
+						  'Erro ao buscar usuarios:',
+						  xhr.responseText,
+						  'warning'
+						)
 			});
 		}	
 		
 		function deleteUser(id){
-			const swalWithBootstrapButtons = Swal.mixin({
-				  customClass: {
-				    confirmButton: 'btn btn-success',
-				    cancelButton: 'btn btn-danger'
-				  },
-				  buttonsStyling: false
-				})
-
-				swalWithBootstrapButtons.fire({
-				  title: 'Deseja realmente deletar?',
-				  text: "Os dados serão perdidos permanentemente!",
-				  icon: 'warning',
-				  showCancelButton: true,
-				  confirmButtonText: 'Sim, deletar!!',
-				  cancelButtonText: 'Não, cancelar',
-				  reverseButtons: true
+			Swal.fire({
+				  title: 'Deseja realmente excluir?',
+				  showDenyButton: true,
+				  confirmButtonText: 'Excluir',
+				  denyButtonText: 'Cancelar',
 				}).then((result) => {
 				  if (result.isConfirmed) {
 					  $.ajax({
@@ -209,42 +198,20 @@ align-content: center;
 											success : function(response) {
 												
 												$('#'+ id).remove();
-												const Toast = Swal.mixin({
-													  toast: true,
-													  position: 'top-end',
-													  showConfirmButton: false,
-													  timer: 3000,
-													  timerProgressBar: true,
-													  didOpen: (toast) => {
-													    toast.addEventListener('mouseenter', Swal.stopTimer)
-													    toast.addEventListener('mouseleave', Swal.resumeTimer)
-													  }
-													})
-
 													Toast.fire({
 													  icon: 'success',
-													  title: 'Dados deletados'
+													  title: 'Usuário deletado com sucesso!'
 													})	
 											}
 										}).fail(function(xhr, status, errorThrown) {
-											alert("Erro ao deletar: " + xhr.responseText);
+											Swal.fire(
+													  'Erro ao deletar:',
+													  xhr.responseText,
+													  'warning'
+													)
 										});
 				    
-				  } else if (
-				    result.dismiss === Swal.DismissReason.cancel
-				  ) {
-					  const Toast = Swal.mixin({
-						  toast: true,
-						  position: 'top-end',
-						  showConfirmButton: false,
-						  timer: 3000,
-						  timerProgressBar: true,
-						  didOpen: (toast) => {
-						    toast.addEventListener('mouseenter', Swal.stopTimer)
-						    toast.addEventListener('mouseleave', Swal.resumeTimer)
-						  }
-						})
-
+				  } else if (result.isDenied) {
 						Toast.fire({
 						  icon: 'error',
 						  title: 'Exclusão cancelada!'
@@ -267,10 +234,23 @@ align-content: center;
 					
 				}
 			}).fail(function(xhr, status, errorThrown) {
-				alert("Erro ao buscar usuario por id: " + xhr.responseText);
+				Swal.fire(
+						  'Erro ao buscar usuario por id:',
+						  xhr.responseText,
+						  'warning'
+						)
 			});
 		}
 	
+		const Toast = Swal.mixin({
+			  toast: true,
+			  position: 'top-end',
+			  showConfirmButton: false,
+			  timer: 3000,
+			  timerProgressBar: true,
+			})
+		
+		
 		function salvarUsuario() {
 			var id = $('#idInsercao').val();
 			var nome = $('#nomeInsercao').val();
@@ -279,19 +259,28 @@ align-content: center;
 			
 			if(nome == null || nome != null & nome.trim() == ''){
 				$('#nome').focus();
-				alert('Informe o nome');
+					Toast.fire({
+					  icon: 'warning',
+					  title: 'Informe o nome!'
+					})	
 				return;
 			}
 			
 			if(idade == null || idade != null & idade.trim() == ''){
 				$('#idade').focus();
-				alert('Informe a idade');
+					Toast.fire({
+					  icon: 'warning',
+					  title: 'Informe a idade!'
+					})	
 				return;
 			}
 			
 			if(skill == null || skill != null & skill.trim() == ''){
 				$('#skill').focus();
-				alert('Informe a skill');
+					Toast.fire({
+					  icon: 'warning',
+					  title: 'Informe a skill!'
+					})	
 				return;
 			}
 			$.ajax({
@@ -306,10 +295,6 @@ align-content: center;
 						  showConfirmButton: false,
 						  timer: 3000,
 						  timerProgressBar: true,
-						  didOpen: (toast) => {
-						    toast.addEventListener('mouseenter', Swal.stopTimer)
-						    toast.addEventListener('mouseleave', Swal.resumeTimer)
-						  }
 						})
 
 						Toast.fire({
@@ -319,12 +304,17 @@ align-content: center;
 					return preencheTabela();
 				}
 			}).fail(function(xhr, status, errorThrown) {
-				alert("Erro ao salvar: " + xhr.responseText);
+				Swal.fire(
+						  'Erro ao salvar:',
+						  xhr.responseText,
+						  'warning'
+						)
 			});
 			
 			document.getElementById('formCadUser').reset();
 
 		}
+		
 		
 		function atualizarUsuario() {
 			var id = $('#id').val();
@@ -334,19 +324,28 @@ align-content: center;
 			
 			if(nome == null || nome != null & nome.trim() == ''){
 				$('#nome').focus();
-				alert('Informe o nome');
+					Toast.fire({
+					  icon: 'warning',
+					  title: 'Informe o nome!'
+					})	
 				return;
 			}
 			
 			if(idade == null || idade != null & idade.trim() == ''){
 				$('#idade').focus();
-				alert('Informe a idade');
+					Toast.fire({
+					  icon: 'warning',
+					  title: 'Informe a idade!'
+					})	
 				return;
 			}
 			
 			if(skill == null || skill != null & skill.trim() == ''){
 				$('#skill').focus();
-				alert('Informe a skill');
+					Toast.fire({
+					  icon: 'warning',
+					  title: 'Informe a skill!'
+					})
 				return;
 			}
 				
@@ -362,10 +361,6 @@ align-content: center;
 							  showConfirmButton: false,
 							  timer: 3000,
 							  timerProgressBar: true,
-							  didOpen: (toast) => {
-							    toast.addEventListener('mouseenter', Swal.stopTimer)
-							    toast.addEventListener('mouseleave', Swal.resumeTimer)
-							  }
 							})
 
 							Toast.fire({
@@ -376,7 +371,11 @@ align-content: center;
 						return preencheTabela();
 					}
 				}).fail(function(xhr, status, errorThrown) {
-					alert("Erro ao Atualizado: " + xhr.responseText);
+					Swal.fire(
+							  'Erro ao atualizar usuario:',
+							  xhr.responseText,
+							  'warning'
+							)
 				});
 				
 				document.getElementById('formCadUser').reset();
