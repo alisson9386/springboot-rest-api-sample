@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Spring Boot</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
+
+<link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-default@4/default.css" rel="stylesheet">
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 <style type="text/css">
 
 form{
@@ -35,7 +38,7 @@ align-content: center;
 		<div class="row">
 		
 			<div class="col-sm-4" id="formCadastro">
-				<h3>Formul�rio de cadastro</h3>
+				<h3>Formulário de cadastro</h3>
 				<br>
 				<div class="card">
 				<form action="" id="formCadUser">
@@ -106,7 +109,7 @@ align-content: center;
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Edi��o de
+						<h5 class="modal-title" id="exampleModalLabel">Edição de
 							Usuario</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
@@ -159,10 +162,8 @@ align-content: center;
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 		crossorigin="anonymous"></script>
-		
+
 	<script type="text/javascript">
-	
-	
 		function preencheTabela(){
 			$.ajax({
 				method : "GET",
@@ -182,22 +183,74 @@ align-content: center;
 			});
 		}	
 		
-		
 		function deleteUser(id){
-			if(confirm('Deseja realmente deletar?')){
-			$.ajax({
-				method : "DELETE",
-				url : "delete",
-				data : "id="+id,
-				success : function(response) {
-					
-					$('#'+ id).remove();
-					alert(response);	
-				}
-			}).fail(function(xhr, status, errorThrown) {
-				alert("Erro ao deletar: " + xhr.responseText);
-			});
-			}
+			const swalWithBootstrapButtons = Swal.mixin({
+				  customClass: {
+				    confirmButton: 'btn btn-success',
+				    cancelButton: 'btn btn-danger'
+				  },
+				  buttonsStyling: false
+				})
+
+				swalWithBootstrapButtons.fire({
+				  title: 'Deseja realmente deletar?',
+				  text: "Os dados serão perdidos permanentemente!",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonText: 'Sim, deletar!!',
+				  cancelButtonText: 'Não, cancelar',
+				  reverseButtons: true
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+											method : "DELETE",
+											url : "delete",
+											data : "id="+id,
+											success : function(response) {
+												
+												$('#'+ id).remove();
+												const Toast = Swal.mixin({
+													  toast: true,
+													  position: 'top-end',
+													  showConfirmButton: false,
+													  timer: 3000,
+													  timerProgressBar: true,
+													  didOpen: (toast) => {
+													    toast.addEventListener('mouseenter', Swal.stopTimer)
+													    toast.addEventListener('mouseleave', Swal.resumeTimer)
+													  }
+													})
+
+													Toast.fire({
+													  icon: 'success',
+													  title: 'Dados deletados'
+													})	
+											}
+										}).fail(function(xhr, status, errorThrown) {
+											alert("Erro ao deletar: " + xhr.responseText);
+										});
+				    
+				  } else if (
+				    result.dismiss === Swal.DismissReason.cancel
+				  ) {
+					  const Toast = Swal.mixin({
+						  toast: true,
+						  position: 'top-end',
+						  showConfirmButton: false,
+						  timer: 3000,
+						  timerProgressBar: true,
+						  didOpen: (toast) => {
+						    toast.addEventListener('mouseenter', Swal.stopTimer)
+						    toast.addEventListener('mouseleave', Swal.resumeTimer)
+						  }
+						})
+
+						Toast.fire({
+						  icon: 'error',
+						  title: 'Exclusão cancelada!'
+						})	
+				  }
+				})
 		}
 		
 		function colocarEmEdicao(id){
@@ -247,7 +300,22 @@ align-content: center;
 				data : JSON.stringify({id : id, nome : nome, idade : idade, skill : skill}),
 				contentType : "application/json; charset-utf-8",
 				success : function(response) {
-					alert("Salvo com sucesso!");
+					const Toast = Swal.mixin({
+						  toast: true,
+						  position: 'top-end',
+						  showConfirmButton: false,
+						  timer: 3000,
+						  timerProgressBar: true,
+						  didOpen: (toast) => {
+						    toast.addEventListener('mouseenter', Swal.stopTimer)
+						    toast.addEventListener('mouseleave', Swal.resumeTimer)
+						  }
+						})
+
+						Toast.fire({
+						  icon: 'success',
+						  title: 'Usuádio salvo com sucesso!!'
+						})	
 					return preencheTabela();
 				}
 			}).fail(function(xhr, status, errorThrown) {
@@ -288,7 +356,22 @@ align-content: center;
 					data : JSON.stringify({id : id, nome : nome, idade : idade, skill : skill}),
 					contentType : "application/json; charset-utf-8",
 					success : function(response) {
-						alert("Atualizado com sucesso!");
+						const Toast = Swal.mixin({
+							  toast: true,
+							  position: 'top-end',
+							  showConfirmButton: false,
+							  timer: 3000,
+							  timerProgressBar: true,
+							  didOpen: (toast) => {
+							    toast.addEventListener('mouseenter', Swal.stopTimer)
+							    toast.addEventListener('mouseleave', Swal.resumeTimer)
+							  }
+							})
+
+							Toast.fire({
+							  icon: 'success',
+							  title: 'Usuário editado com sucesso!'
+							})	
 						$('#modalEditarUser').modal('hide');
 						return preencheTabela();
 					}
