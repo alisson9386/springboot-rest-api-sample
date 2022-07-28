@@ -287,14 +287,6 @@ align-content: center;
 				data : JSON.stringify({id : id, nome : nome, idade : idade, skill : skill}),
 				contentType : "application/json; charset-utf-8",
 				success : function(response) {
-					const Toast = Swal.mixin({
-						  toast: true,
-						  position: 'top-end',
-						  showConfirmButton: false,
-						  timer: 3000,
-						  timerProgressBar: true,
-						})
-
 						Toast.fire({
 						  icon: 'success',
 						  title: 'Usuário salvo com sucesso!!'
@@ -353,14 +345,6 @@ align-content: center;
 					data : JSON.stringify({id : id, nome : nome, idade : idade, skill : skill}),
 					contentType : "application/json; charset-utf-8",
 					success : function(response) {
-						const Toast = Swal.mixin({
-							  toast: true,
-							  position: 'top-end',
-							  showConfirmButton: false,
-							  timer: 3000,
-							  timerProgressBar: true,
-							})
-
 							Toast.fire({
 							  icon: 'success',
 							  title: 'Usuário editado com sucesso!'
